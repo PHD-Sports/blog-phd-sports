@@ -39,3 +39,4 @@ Thumbs.db
 # Logs
 *.log
 server.log
+.env*.local
