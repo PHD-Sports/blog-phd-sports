@@ -192,6 +192,69 @@ export async function getNoticiasByTag(tagSlug: string): Promise<Noticia[]> {
   return data || [];
 }
 
+// Buscar notícias paginadas (para infinite scroll)
+export async function getNoticiasPaginadas(
+  page: number = 0,
+  perPage: number = 6,
+  categoria?: string,
+  busca?: string
+): Promise<{ data: Noticia[]; total: number }> {
+  let query = supabase
+    .from('noticias')
+    .select(`
+      *,
+      categorias (*),
+      noticias_tags (
+        tags (*)
+      )
+    `, { count: 'exact' });
+
+  if (categoria && categoria !== 'Todas') {
+    query = query.eq('categoria', categoria);
+  }
+
+  if (busca && busca.trim()) {
+    query = query.or(`titulo.ilike.%${busca}%,resumo.ilike.%${busca}%,conteudo.ilike.%${busca}%`);
+  }
+
+  const from = page * perPage;
+  const to = from + perPage - 1;
+
+  const { data, error, count } = await query
+    .order('data', { ascending: false })
+    .range(from, to);
+
+  if (error) {
+    console.error('Erro ao buscar notícias paginadas:', error);
+    return { data: [], total: 0 };
+  }
+
+  return { data: data || [], total: count || 0 };
+}
+
+// Pesquisar notícias
+export async function pesquisarNoticias(termo: string): Promise<Noticia[]> {
+  const { data, error } = await supabase
+    .from('noticias')
+    .select(`
+      *,
+      categorias (*),
+      noticias_tags (
+        tags (*)
+      )
+    `)
+    .or(`titulo.ilike.%${termo}%,resumo.ilike.%${termo}%,conteudo.ilike.%${termo}%`)
+    .order('data', { ascending: false })
+    .limit(20);
+
+  if (error) {
+    console.error('Erro na pesquisa:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
 // Helper: extrair tags de uma notícia
 export function getTagsFromNoticia(noticia: Noticia): Tag[] {
   return (noticia.noticias_tags || []).map(nt => nt.tags).filter(Boolean);
