@@ -3,6 +3,12 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
+interface Tag {
+  id: number;
+  nome: string;
+  slug: string;
+}
+
 interface Noticia {
   id: number;
   slug: string;
@@ -20,9 +26,10 @@ interface Noticia {
 interface Props {
   noticia: Noticia;
   outrasNoticias: Noticia[];
+  tags: Tag[];
 }
 
-export default function NoticiaClient({ noticia, outrasNoticias }: Props) {
+export default function NoticiaClient({ noticia, outrasNoticias, tags }: Props) {
   const shareUrl = `https://noticias.academiaphdsports.com.br/noticia/${noticia.slug}`;
   const shareText = encodeURIComponent(noticia.titulo);
   const shareUrlEncoded = encodeURIComponent(shareUrl);
@@ -164,12 +171,12 @@ export default function NoticiaClient({ noticia, outrasNoticias }: Props) {
 
           {/* Tags */}
           <div className="flex flex-wrap gap-3 mt-12 pt-8 border-t border-gray-200">
-            {['Fitness', 'Empreendedorismo', 'Franquias', 'Negócios', noticia.categoria].map(tag => (
+            {tags.map(tag => (
               <span 
-                key={tag}
+                key={tag.id}
                 className="bg-gray-100 text-[#131d2f] px-4 py-2 rounded-full text-sm font-medium hover:bg-[#131d2f] hover:text-white transition-colors cursor-pointer"
               >
-                #{tag}
+                #{tag.nome}
               </span>
             ))}
           </div>

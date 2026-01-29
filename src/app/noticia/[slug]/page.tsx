@@ -1,17 +1,19 @@
 import { Metadata } from 'next';
-import noticias from '@/data/noticias.json';
+import { getNoticiaBySlug, getNoticias, getAllSlugs, getTagsFromNoticia } from '@/lib/supabase';
 import NoticiaClient from './NoticiaClient';
 import Link from 'next/link';
 
-export function generateStaticParams() {
-  return noticias.noticias.map((noticia) => ({
-    slug: noticia.slug,
-  }));
+// Revalidar a cada 60 segundos (ISR)
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const noticia = noticias.noticias.find(n => n.slug === slug);
+  const noticia = await getNoticiaBySlug(slug);
   
   if (!noticia) {
     return {
@@ -26,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     ? noticia.imagem 
     : `${baseUrl}${noticia.imagem}`;
 
-  const titleSeo = `${noticia.titulo} | Ph.D Sports Blog`;
+  const tags = getTagsFromNoticia(noticia);
   const keywords = [
     noticia.categoria,
     'Ph.D Sports',
@@ -38,13 +40,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     'bem-estar',
     'empreendedorismo fitness',
     'rede de academias',
+    ...tags.map(t => t.nome),
     ...noticia.titulo.split(' ').filter(word => word.length > 4)
   ];
 
   return {
-    title: titleSeo,
+    title: `${noticia.titulo} | Ph.D Sports Blog`,
     description: noticia.resumo,
-    keywords: keywords,
+    keywords: [...new Set(keywords)],
     authors: [{ name: noticia.autor }],
     creator: 'Ph.D Sports',
     publisher: 'Ph.D Sports',
@@ -102,7 +105,7 @@ interface Props {
 
 export default async function NoticiaPage({ params }: Props) {
   const { slug } = await params;
-  const noticia = noticias.noticias.find(n => n.slug === slug);
+  const noticia = await getNoticiaBySlug(slug);
 
   if (!noticia) {
     return (
@@ -118,7 +121,9 @@ export default async function NoticiaPage({ params }: Props) {
     );
   }
 
-  const outrasNoticias = noticias.noticias.filter(n => n.id !== noticia.id).slice(0, 3);
+  const todasNoticias = await getNoticias();
+  const outrasNoticias = todasNoticias.filter(n => n.id !== noticia.id).slice(0, 3);
+  const tags = getTagsFromNoticia(noticia);
 
   const baseUrl = 'https://noticias.academiaphdsports.com.br';
   const imageUrl = noticia.imagem.startsWith('http') 
@@ -153,7 +158,7 @@ export default async function NoticiaPage({ params }: Props) {
       '@id': `${baseUrl}/noticia/${noticia.slug}`
     },
     articleSection: noticia.categoria,
-    keywords: [noticia.categoria, 'fitness', 'academia', 'franquia', 'Ph.D Sports', 'empreendedorismo', 'saúde'].join(', '),
+    keywords: tags.map(t => t.nome).join(', '),
     inLanguage: 'pt-BR',
     isAccessibleForFree: true,
     wordCount: noticia.conteudo.split(/\s+/).length,
@@ -197,12 +202,6 @@ export default async function NoticiaPage({ params }: Props) {
       'https://www.instagram.com/academiaphdsports/',
       'https://www.facebook.com/academiaphdsports/',
     ],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer service',
-      areaServed: 'BR',
-      availableLanguage: 'Portuguese',
-    }
   };
 
   return (
@@ -219,7 +218,7 @@ export default async function NoticiaPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
-      <NoticiaClient noticia={noticia} outrasNoticias={outrasNoticias} />
+      <NoticiaClient noticia={noticia} outrasNoticias={outrasNoticias} tags={tags} />
     </>
   );
 }
