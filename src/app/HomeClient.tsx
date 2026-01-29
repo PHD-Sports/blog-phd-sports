@@ -126,22 +126,25 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/">
-              <motion.div 
-                className="flex items-center gap-4 cursor-pointer"
-                whileHover={{ scale: 1.05 }}
-              >
-                <img 
-                  src="https://www.academiaphdsports.com.br/logo-phd-sports.png" 
-                  alt="Ph.D Sports" 
-                  className="h-12 brightness-0 invert"
-                />
-                <div className="hidden md:block">
-                  <h1 className="text-white font-bold text-xl">Ph.D Sports</h1>
-                  <p className="text-gray-300 text-sm">Blog de Notícias</p>
-                </div>
-              </motion.div>
-            </Link>
+            <motion.div 
+              className="flex items-center gap-4 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+              onClick={() => {
+                clearSearch();
+                setCategoriaAtiva('Todas');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              <img 
+                src="https://www.academiaphdsports.com.br/logo-phd-sports.png" 
+                alt="Ph.D Sports" 
+                className="h-12 brightness-0 invert"
+              />
+              <div className="hidden md:block">
+                <h1 className="text-white font-bold text-xl">Ph.D Sports</h1>
+                <p className="text-gray-300 text-sm">Blog de Notícias</p>
+              </div>
+            </motion.div>
             
             <nav className="hidden md:flex items-center gap-8">
               {[
@@ -165,17 +168,21 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
                     {item.label}
                   </motion.a>
                 ) : (
-                  <Link key={item.label} href={item.href}>
-                    <motion.span
-                      className="text-white hover:text-[#ffdc61] transition-colors font-medium cursor-pointer"
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 * i }}
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      {item.label}
-                    </motion.span>
-                  </Link>
+                  <motion.span
+                    key={item.label}
+                    className="text-white hover:text-[#ffdc61] transition-colors font-medium cursor-pointer"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 * i }}
+                    whileHover={{ scale: 1.1 }}
+                    onClick={() => {
+                      clearSearch();
+                      setCategoriaAtiva('Todas');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                  >
+                    {item.label}
+                  </motion.span>
                 )
               ))}
             </nav>
