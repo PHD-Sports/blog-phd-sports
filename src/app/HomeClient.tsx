@@ -126,34 +126,57 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <motion.div 
-              className="flex items-center gap-4"
-              whileHover={{ scale: 1.05 }}
-            >
-              <img 
-                src="https://www.academiaphdsports.com.br/logo-phd-sports.png" 
-                alt="Ph.D Sports" 
-                className="h-12 brightness-0 invert"
-              />
-              <div className="hidden md:block">
-                <h1 className="text-white font-bold text-xl">Ph.D Sports</h1>
-                <p className="text-gray-300 text-sm">Blog de Notícias</p>
-              </div>
-            </motion.div>
+            <Link href="/">
+              <motion.div 
+                className="flex items-center gap-4 cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+              >
+                <img 
+                  src="https://www.academiaphdsports.com.br/logo-phd-sports.png" 
+                  alt="Ph.D Sports" 
+                  className="h-12 brightness-0 invert"
+                />
+                <div className="hidden md:block">
+                  <h1 className="text-white font-bold text-xl">Ph.D Sports</h1>
+                  <p className="text-gray-300 text-sm">Blog de Notícias</p>
+                </div>
+              </motion.div>
+            </Link>
             
             <nav className="hidden md:flex items-center gap-8">
-              {['Home', 'Franquias', 'Sobre', 'Contato'].map((item, i) => (
-                <motion.a
-                  key={item}
-                  href="#"
-                  className="text-white hover:text-[#ffdc61] transition-colors font-medium"
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 * i }}
-                  whileHover={{ scale: 1.1 }}
-                >
-                  {item}
-                </motion.a>
+              {[
+                { label: 'Home', href: '/' },
+                { label: 'Franquias', href: 'https://www.academiaphdsports.com.br/seja-franqueado' },
+                { label: 'Sobre', href: 'https://www.academiaphdsports.com.br' },
+                { label: 'Contato', href: 'https://www.academiaphdsports.com.br' },
+              ].map((item, i) => (
+                item.href.startsWith('http') ? (
+                  <motion.a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-[#ffdc61] transition-colors font-medium"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 * i }}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    {item.label}
+                  </motion.a>
+                ) : (
+                  <Link key={item.label} href={item.href}>
+                    <motion.span
+                      className="text-white hover:text-[#ffdc61] transition-colors font-medium cursor-pointer"
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 * i }}
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      {item.label}
+                    </motion.span>
+                  </Link>
+                )
               ))}
             </nav>
 
