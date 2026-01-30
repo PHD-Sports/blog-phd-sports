@@ -127,6 +127,10 @@ export default async function NoticiaPage({ params }: Props) {
   const outrasNoticias = todasNoticias.filter(n => n.id !== noticia.id).slice(0, 3);
   const tags = getTagsFromNoticia(noticia);
 
+  // Tempo de leitura estimado (200 palavras por minuto)
+  const wordCount = noticia.conteudo.split(/\s+/).length;
+  const tempoLeitura = Math.max(1, Math.ceil(wordCount / 200));
+
   const baseUrl = 'https://noticias.academiaphdsports.com.br';
   const imageUrl = noticia.imagem.startsWith('http') 
     ? noticia.imagem 
@@ -163,8 +167,15 @@ export default async function NoticiaPage({ params }: Props) {
     keywords: tags.map(t => t.nome).join(', '),
     inLanguage: 'pt-BR',
     isAccessibleForFree: true,
-    wordCount: noticia.conteudo.split(/\s+/).length,
+    wordCount: wordCount,
+    timeRequired: `PT${tempoLeitura}M`,
     url: `${baseUrl}/noticia/${noticia.slug}`,
+    thumbnailUrl: imageUrl,
+    copyrightHolder: {
+      '@type': 'Organization',
+      name: 'Ph.D Sports',
+    },
+    copyrightYear: new Date(noticia.data).getFullYear(),
   };
 
   // Schema.org - BreadcrumbList
@@ -220,7 +231,7 @@ export default async function NoticiaPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
-      <NoticiaClient noticia={noticia} outrasNoticias={outrasNoticias} tags={tags} />
+      <NoticiaClient noticia={noticia} outrasNoticias={outrasNoticias} tags={tags} tempoLeitura={tempoLeitura} />
     </>
   );
 }

@@ -27,9 +27,10 @@ interface Props {
   noticia: Noticia;
   outrasNoticias: Noticia[];
   tags: Tag[];
+  tempoLeitura: number;
 }
 
-export default function NoticiaClient({ noticia, outrasNoticias, tags }: Props) {
+export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeitura }: Props) {
   const shareUrl = `https://noticias.academiaphdsports.com.br/noticia/${noticia.slug}`;
   const shareText = encodeURIComponent(noticia.titulo);
   const shareUrlEncoded = encodeURIComponent(shareUrl);
@@ -118,6 +119,13 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags }: Props) 
                   year: 'numeric' 
                 })}
               </time>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {tempoLeitura} min de leitura
+              </span>
             </motion.div>
           </div>
         </div>

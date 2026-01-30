@@ -65,9 +65,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'google-site-verification-code', // Substituir pelo código real
-  },
+  // verification: { google: 'CÓDIGO_AQUI' }, // Adicionar quando registrar no Google Search Console
   category: 'fitness',
 };
 
