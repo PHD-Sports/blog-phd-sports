@@ -7,6 +7,9 @@ import Link from 'next/link';
 // Revalidar a cada 60 segundos (ISR)
 export const revalidate = 60;
 
+// Permitir rotas dinâmicas (IDs antigos que não estão no generateStaticParams)
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
   return slugs.map((slug) => ({ slug }));
