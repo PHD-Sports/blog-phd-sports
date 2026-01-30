@@ -1,14 +1,10 @@
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
-import { getNoticiaBySlug, getNoticias, getAllSlugs, getTagsFromNoticia, getSlugById } from '@/lib/supabase';
+import { getNoticiaBySlug, getNoticias, getAllSlugs, getTagsFromNoticia } from '@/lib/supabase';
 import NoticiaClient from './NoticiaClient';
 import Link from 'next/link';
 
 // Revalidar a cada 60 segundos (ISR)
 export const revalidate = 60;
-
-// Permitir rotas dinâmicas (IDs antigos que não estão no generateStaticParams)
-export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -17,20 +13,6 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-
-  // Se for ID numérico, busca pelo slug real
-  if (/^\d+$/.test(slug)) {
-    const realSlug = await getSlugById(Number(slug));
-    if (realSlug) {
-      const noticiaById = await getNoticiaBySlug(realSlug);
-      if (noticiaById) {
-        return {
-          title: `${noticiaById.titulo} | Ph.D Sports Blog`,
-          alternates: { canonical: `https://noticias.academiaphdsports.com.br/noticia/${realSlug}` },
-        };
-      }
-    }
-  }
 
   const noticia = await getNoticiaBySlug(slug);
   
@@ -124,14 +106,6 @@ interface Props {
 
 export default async function NoticiaPage({ params }: Props) {
   const { slug } = await params;
-
-  // Redirect de URLs antigas com ID numérico para o slug correto
-  if (/^\d+$/.test(slug)) {
-    const realSlug = await getSlugById(Number(slug));
-    if (realSlug) {
-      redirect(`/noticia/${realSlug}`);
-    }
-  }
 
   const noticia = await getNoticiaBySlug(slug);
 
