@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import { getNoticiaBySlug, getNoticias, getAllSlugs, getTagsFromNoticia } from '@/lib/supabase';
+import { redirect } from 'next/navigation';
+import { getNoticiaBySlug, getNoticias, getAllSlugs, getTagsFromNoticia, getSlugById } from '@/lib/supabase';
 import NoticiaClient from './NoticiaClient';
 import Link from 'next/link';
 
@@ -13,6 +14,21 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
+
+  // Se for ID numérico, busca pelo slug real
+  if (/^\d+$/.test(slug)) {
+    const realSlug = await getSlugById(Number(slug));
+    if (realSlug) {
+      const noticiaById = await getNoticiaBySlug(realSlug);
+      if (noticiaById) {
+        return {
+          title: `${noticiaById.titulo} | Ph.D Sports Blog`,
+          alternates: { canonical: `https://noticias.academiaphdsports.com.br/noticia/${realSlug}` },
+        };
+      }
+    }
+  }
+
   const noticia = await getNoticiaBySlug(slug);
   
   if (!noticia) {
@@ -105,6 +121,15 @@ interface Props {
 
 export default async function NoticiaPage({ params }: Props) {
   const { slug } = await params;
+
+  // Redirect de URLs antigas com ID numérico para o slug correto
+  if (/^\d+$/.test(slug)) {
+    const realSlug = await getSlugById(Number(slug));
+    if (realSlug) {
+      redirect(`/noticia/${realSlug}`);
+    }
+  }
+
   const noticia = await getNoticiaBySlug(slug);
 
   if (!noticia) {

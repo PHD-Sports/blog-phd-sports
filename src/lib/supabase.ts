@@ -255,6 +255,18 @@ export async function pesquisarNoticias(termo: string): Promise<Noticia[]> {
   return data || [];
 }
 
+// Buscar slug por ID (para redirect de URLs antigas)
+export async function getSlugById(id: number): Promise<string | null> {
+  const { data, error } = await supabase
+    .from('noticias')
+    .select('slug')
+    .eq('id', id)
+    .single();
+
+  if (error) return null;
+  return data?.slug || null;
+}
+
 // Helper: extrair tags de uma notícia
 export function getTagsFromNoticia(noticia: Noticia): Tag[] {
   return (noticia.noticias_tags || []).map(nt => nt.tags).filter(Boolean);
