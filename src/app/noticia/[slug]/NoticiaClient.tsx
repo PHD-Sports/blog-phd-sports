@@ -30,6 +30,22 @@ interface Props {
   tempoLeitura: number;
 }
 
+// Helper: convert inline markdown (bold, links, italic, emoji) to HTML
+function renderInlineMarkdown(text: string): string {
+  let html = text;
+  // Escape HTML entities first
+  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // Links: [text](url)
+  html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#2563eb] underline hover:text-[#1d4ed8] font-medium">$1</a>');
+  // Auto-link bare URLs (not already in href)
+  html = html.replace(/(?<!href=")(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-[#2563eb] underline hover:text-[#1d4ed8] font-medium">$1</a>');
+  // Bold: **text**
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  // Italic: *text* (single asterisk, not inside bold)
+  html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+  return html;
+}
+
 export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeitura }: Props) {
   const shareUrl = `https://noticias.academiaphdsports.com.br/noticia/${noticia.slug}`;
   const shareText = encodeURIComponent(noticia.titulo);
@@ -148,6 +164,7 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
           {/* Conteúdo principal */}
           <div className="prose prose-lg max-w-none" itemProp="articleBody">
             {noticia.conteudo.split('\n\n').map((paragraph, idx) => {
+              // Headers
               if (paragraph.startsWith('## ')) {
                 return (
                   <h2 key={idx} className="text-2xl font-bold text-[#131d2f] mt-8 mb-4">
@@ -155,17 +172,45 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                   </h2>
                 );
               }
-              // Render bold text within paragraphs
-              const parts = paragraph.split(/(\*\*[^*]+\*\*)/g);
+
+              // List blocks (lines starting with - )
+              const lines = paragraph.split('\n');
+              const isListBlock = lines.every(l => l.trim().startsWith('- ') || l.trim() === '');
+              if (isListBlock && lines.some(l => l.trim().startsWith('- '))) {
+                return (
+                  <ul key={idx} className="list-disc list-inside space-y-2 mb-6 text-gray-700 text-lg">
+                    {lines.filter(l => l.trim().startsWith('- ')).map((line, li) => (
+                      <li key={li} dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(line.replace(/^-\s+/, '')) }} />
+                    ))}
+                  </ul>
+                );
+              }
+
+              // Ordered list blocks (lines starting with number.)
+              const isOrderedList = lines.every(l => /^\d+\.\s/.test(l.trim()) || l.trim() === '');
+              if (isOrderedList && lines.some(l => /^\d+\.\s/.test(l.trim()))) {
+                return (
+                  <ol key={idx} className="list-decimal list-inside space-y-2 mb-6 text-gray-700 text-lg">
+                    {lines.filter(l => /^\d+\.\s/.test(l.trim())).map((line, li) => (
+                      <li key={li} dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(line.replace(/^\d+\.\s+/, '')) }} />
+                    ))}
+                  </ol>
+                );
+              }
+
+              // Blockquote
+              if (paragraph.startsWith('> ') || paragraph.startsWith('*"')) {
+                const text = paragraph.replace(/^>\s*/, '').replace(/^\*"/, '"').replace(/"\*$/, '"');
+                return (
+                  <blockquote key={idx} className="bg-gray-100 border-l-4 border-[#ffdc61] p-6 rounded-r-xl my-6 italic text-gray-700 text-lg">
+                    {text}
+                  </blockquote>
+                );
+              }
+
+              // Regular paragraphs with inline markdown
               return (
-                <p key={idx} className="text-gray-700 leading-relaxed text-lg mb-6">
-                  {parts.map((part, i) => {
-                    if (part.startsWith('**') && part.endsWith('**')) {
-                      return <strong key={i}>{part.slice(2, -2)}</strong>;
-                    }
-                    return part;
-                  })}
-                </p>
+                <p key={idx} className="text-gray-700 leading-relaxed text-lg mb-6" dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(paragraph) }} />
               );
             })}
 
