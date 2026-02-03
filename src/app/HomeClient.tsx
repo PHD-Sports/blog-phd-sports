@@ -151,7 +151,7 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
                 { label: 'Home', href: '/' },
                 { label: 'Franquias', href: 'https://www.academiaphdsports.com.br/seja-franqueado' },
                 { label: 'Sobre', href: 'https://www.academiaphdsports.com.br' },
-                { label: 'Contato', href: 'https://www.academiaphdsports.com.br' },
+                { label: 'Contato', href: 'https://wa.me/5541999830248' },
               ].map((item, i) => (
                 item.href.startsWith('http') ? (
                   <motion.a
@@ -600,7 +600,7 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
                 <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Notícias</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Franquias</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contato</a></li>
+                <li><a href="https://wa.me/5541999830248" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
               </ul>
             </div>
             
