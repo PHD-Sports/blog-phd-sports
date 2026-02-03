@@ -626,8 +626,8 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
             <div>
               <h5 className="font-bold mb-4 text-[#ffdc61]">Contato</h5>
               <ul className="space-y-2 text-gray-400">
-                <li>contato@phdsports.com.br</li>
-                <li>(41) 3000-0000</li>
+                <li><a href="mailto:contatofranquia@academiaphd.com.br" className="hover:text-white transition-colors">contatofranquia@academiaphd.com.br</a></li>
+                <li><a href="https://wa.me/5541999830248" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">(41) 99983-0248</a></li>
                 <li>Curitiba, PR - Brasil</li>
               </ul>
             </div>
