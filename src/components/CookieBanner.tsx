@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-const PRIVACY_URL = 'https://www.academiaphdsports.com.br/politica-de-privacidade';
+const PRIVACY_URL = 'https://www.academiaphdsports.com.br/politica-cookies';
 const STORAGE_KEY = 'phd_cookie_consent';
 
 export default function CookieBanner() {
