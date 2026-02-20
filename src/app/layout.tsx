@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     description: "Notícias, tendências e oportunidades de negócio no mercado fitness brasileiro. Conheça a Ph.D Sports.",
     images: [
       {
-        url: 'https://www.academiaphdsports.com.br/logo-phd-sports.png',
+        url: 'https://www.academiaphdsports.com.br/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Ph.D Sports - Muito Além do Treino',
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Ph.D Sports | Blog de Notícias Fitness",
     description: "Notícias e tendências do mercado fitness brasileiro",
-    images: ['https://www.academiaphdsports.com.br/logo-phd-sports.png'],
+    images: ['https://www.academiaphdsports.com.br/og-image.png'],
     creator: '@phdsports',
   },
   robots: {
