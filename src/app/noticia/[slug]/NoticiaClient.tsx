@@ -21,6 +21,7 @@ interface Noticia {
   data: string;
   destaque?: boolean;
   local?: string;
+  citacao_ceo?: boolean;
 }
 
 interface Props {
@@ -214,12 +215,14 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
               );
             })}
 
-            <blockquote className="bg-[#131d2f] text-white p-8 rounded-2xl my-8 border-l-4 border-[#ffdc61]">
-              <p className="text-xl italic mb-4">
-                &ldquo;Nosso objetivo é transformar vidas através do esporte, oferecendo estrutura de qualidade e suporte completo aos nossos franqueados.&rdquo;
-              </p>
-              <cite className="text-[#ffdc61] font-semibold">— Viktor Rossa, CEO Ph.D Sports</cite>
-            </blockquote>
+            {noticia.citacao_ceo !== false && (
+              <blockquote className="bg-[#131d2f] text-white p-8 rounded-2xl my-8 border-l-4 border-[#ffdc61]">
+                <p className="text-xl italic mb-4">
+                  &ldquo;Nosso objetivo é transformar vidas através do esporte, oferecendo estrutura de qualidade e suporte completo aos nossos franqueados.&rdquo;
+                </p>
+                <cite className="text-[#ffdc61] font-semibold">— Viktor Rossa, CEO Ph.D Sports</cite>
+              </blockquote>
+            )}
           </div>
 
           {/* Tags */}

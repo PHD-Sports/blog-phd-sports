@@ -36,7 +36,7 @@ export default function FranqueadoPage() {
     { icon: '📈', title: 'Alto Retorno', desc: 'ROI médio de 24 a 36 meses com faturamento crescente' },
     { icon: '🎓', title: 'Treinamento Completo', desc: 'Capacitação total para você e sua equipe' },
     { icon: '🛠️', title: 'Suporte 360°', desc: 'Acompanhamento em marketing, gestão e operação' },
-    { icon: '📍', title: '+130 Unidades', desc: 'Rede presente em todo o Brasil' },
+    { icon: '📍', title: '+200 Unidades', desc: 'Rede presente em 9 estados do Brasil' },
     { icon: '💡', title: 'Inovação Constante', desc: 'Tecnologia e metodologias sempre atualizadas' },
   ];
 
@@ -111,7 +111,7 @@ export default function FranqueadoPage() {
 
             <div className="flex flex-wrap justify-center gap-8 mt-12">
               {[
-                { num: '130+', label: 'Unidades' },
+                { num: '200+', label: 'Unidades' },
                 { num: '500K+', label: 'Alunos' },
                 { num: '98%', label: 'Satisfação' },
                 { num: '10+', label: 'Anos' },

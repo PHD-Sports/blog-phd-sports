@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     default: "Ph.D Sports | Blog de Notícias e Empreendedorismo Fitness",
     template: "%s | Ph.D Sports Blog"
   },
-  description: "Descubra as últimas novidades do mundo fitness, dicas de empreendedorismo e oportunidades de franquia com a Ph.D Sports - a maior rede de academias do Brasil com mais de 130 unidades.",
+  description: "Descubra as últimas novidades do mundo fitness, dicas de empreendedorismo e oportunidades de franquia com a Ph.D Sports - a maior rede de academias do Paraná com mais de 200 unidades em 9 estados.",
   keywords: [
     "Ph.D Sports", "academia", "franquia fitness", "empreendedorismo", 
     "negócios fitness", "academia franquia", "investimento academia",

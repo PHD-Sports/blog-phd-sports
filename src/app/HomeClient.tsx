@@ -270,7 +270,7 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
               
               <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-8">
                 Descubra as últimas novidades do mundo fitness, dicas de empreendedorismo 
-                e oportunidades de negócio com a maior rede de academias do Brasil.
+                e oportunidades de negócio com a maior rede de academias do Paraná — +200 unidades em 9 estados.
               </p>
 
               {/* Search CTA */}
@@ -590,16 +590,16 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
                 className="h-12 brightness-0 invert mb-4"
               />
               <p className="text-gray-400">
-                A maior rede de academias do Brasil. Transformando vidas através do esporte.
+                A maior rede de academias do Paraná. +200 unidades em 9 estados. Transformando vidas através do esporte.
               </p>
             </div>
             
             <div>
               <h5 className="font-bold mb-4 text-[#ffdc61]">Links Rápidos</h5>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Notícias</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Franquias</a></li>
+                <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
+                <li><a href="/" className="hover:text-white transition-colors">Notícias</a></li>
+                <li><a href="https://www.academiaphdsports.com.br/seja-franqueado" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Franquias</a></li>
                 <li><a href="https://wa.me/5541999830248" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Contato</a></li>
               </ul>
             </div>
