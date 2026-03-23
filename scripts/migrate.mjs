@@ -2,8 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'fs';
 
 const supabase = createClient(
-  'https://pmsonnneoygqarauebuz.supabase.co',
-  'REDACTED'
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
 );
 
 const noticias = JSON.parse(readFileSync('./src/data/noticias.json', 'utf-8')).noticias;
