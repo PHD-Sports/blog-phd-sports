@@ -209,6 +209,27 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                 );
               }
 
+
+              // Instagram embed (when paragraph is a single Instagram URL)
+              const instaMatch = paragraph.trim().match(/^https?:\/\/(?:www\.)?instagram\.com\/(reel|p)\/([^\/?#]+)\/?(?:\?.*)?$/i);
+              if (instaMatch) {
+                const [, type, code] = instaMatch;
+                const embedSrc = `https://www.instagram.com/${type}/${code}/embed`;
+                return (
+                  <div key={idx} className="my-8">
+                    <div className="relative w-full" style={{ paddingBottom: '125%' }}>
+                      <iframe
+                        src={embedSrc}
+                        className="absolute inset-0 w-full h-full rounded-xl border border-gray-200"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        loading="lazy"
+                        title="Instagram Reel"
+                      />
+                    </div>
+                  </div>
+                );
+              }
+
               // Regular paragraphs with inline markdown
               return (
                 <p key={idx} className="text-gray-700 leading-relaxed text-lg mb-6" dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(paragraph) }} />
