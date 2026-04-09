@@ -230,6 +230,31 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                 );
               }
 
+              // Direct image URL (single line)
+              const imageMatch = paragraph.trim().match(/^https?:\/\/[^\s]+\.(?:png|jpe?g|webp|gif)(?:\?.*)?$/i);
+              if (imageMatch) {
+                const src = paragraph.trim();
+                return (
+                  <figure key={idx} className="my-8">
+                    <img src={src} alt="Imagem da notícia" className="w-full rounded-xl border border-gray-200" loading="lazy" />
+                  </figure>
+                );
+              }
+
+              // Direct video URL (single line)
+              const videoMatch = paragraph.trim().match(/^https?:\/\/[^\s]+\.(?:mp4|webm|ogg)(?:\?.*)?$/i);
+              if (videoMatch) {
+                const src = paragraph.trim();
+                return (
+                  <div key={idx} className="my-8">
+                    <video controls className="w-full rounded-xl border border-gray-200" preload="metadata">
+                      <source src={src} />
+                      Seu navegador não suporta vídeo.
+                    </video>
+                  </div>
+                );
+              }
+
               // Regular paragraphs with inline markdown
               return (
                 <p key={idx} className="text-gray-700 leading-relaxed text-lg mb-6" dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(paragraph) }} />
