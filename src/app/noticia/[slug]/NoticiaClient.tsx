@@ -31,6 +31,37 @@ interface Props {
   tempoLeitura: number;
 }
 
+type ContentBlock =
+  | { type: 'text'; value: string }
+  | { type: 'gallery'; images: string[] };
+
+function isImageUrl(text: string): boolean {
+  return /^https?:\/\/[^\s]+\.(?:png|jpe?g|webp|gif)(?:\?.*)?$/i.test(text.trim());
+}
+
+function buildContentBlocks(content: string): ContentBlock[] {
+  const paragraphs = content.split('\n\n');
+  const blocks: ContentBlock[] = [];
+
+  for (let i = 0; i < paragraphs.length; i++) {
+    const current = paragraphs[i].trim();
+
+    if (isImageUrl(current)) {
+      const images = [current];
+      while (i + 1 < paragraphs.length && isImageUrl(paragraphs[i + 1].trim())) {
+        images.push(paragraphs[i + 1].trim());
+        i++;
+      }
+      blocks.push({ type: 'gallery', images });
+      continue;
+    }
+
+    blocks.push({ type: 'text', value: paragraphs[i] });
+  }
+
+  return blocks;
+}
+
 // Helper: convert inline markdown (bold, links, italic, emoji) to HTML
 function renderInlineMarkdown(text: string): string {
   let html = text;
@@ -51,6 +82,7 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
   const shareUrl = `https://noticias.academiaphdsports.com.br/noticia/${noticia.slug}`;
   const shareText = encodeURIComponent(noticia.titulo);
   const shareUrlEncoded = encodeURIComponent(shareUrl);
+  const contentBlocks = buildContentBlocks(noticia.conteudo);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -164,7 +196,46 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
 
           {/* Conteúdo principal */}
           <div className="prose prose-lg max-w-none" itemProp="articleBody">
-            {noticia.conteudo.split('\n\n').map((paragraph, idx) => {
+            {contentBlocks.map((block, idx) => {
+              if (block.type === 'gallery') {
+                return (
+                  <section key={idx} className="not-prose my-10 rounded-3xl bg-[#131d2f] p-4 md:p-6 shadow-xl">
+                    <div className="mb-4 flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#ffdc61]">Galeria</p>
+                        <h3 className="text-lg font-bold text-white md:text-xl">Cobertura visual do evento</h3>
+                      </div>
+                      <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white">
+                        {block.images.length} {block.images.length === 1 ? 'foto' : 'fotos'}
+                      </span>
+                    </div>
+
+                    <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+                      {block.images.map((src, imageIndex) => (
+                        <figure
+                          key={src}
+                          className="min-w-[85%] snap-center overflow-hidden rounded-2xl bg-white shadow-lg md:min-w-[70%]"
+                        >
+                          <img
+                            src={src}
+                            alt={`Imagem ${imageIndex + 1} da notícia ${noticia.titulo}`}
+                            className="h-[260px] w-full object-cover md:h-[420px]"
+                            loading="lazy"
+                          />
+                          <figcaption className="flex items-center justify-between px-4 py-3 text-sm text-gray-600">
+                            <span>Ph.D Sports em destaque</span>
+                            <span className="font-semibold text-[#131d2f]">{imageIndex + 1}/{block.images.length}</span>
+                          </figcaption>
+                        </figure>
+                      ))}
+                    </div>
+
+                    <p className="mt-3 text-sm text-white/70">Arraste para o lado para ver a sequência.</p>
+                  </section>
+                );
+              }
+
+              const paragraph = block.value;
               // Headers
               if (paragraph.startsWith('## ')) {
                 return (
@@ -181,7 +252,7 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                 return (
                   <ul key={idx} className="list-disc list-inside space-y-2 mb-6 text-gray-700 text-lg">
                     {lines.filter(l => l.trim().startsWith('- ')).map((line, li) => (
-                      <li key={li} dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(line.replace(/^-\s+/, '')) }} />
+                      <li key={li} dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(line.replace(/^\-\s+/, '')) }} />
                     ))}
                   </ul>
                 );
@@ -208,7 +279,6 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                   </blockquote>
                 );
               }
-
 
               // Instagram embed (when paragraph is a single Instagram URL)
               const instaMatch = paragraph.trim().match(/^https?:\/\/(?:www\.)?instagram\.com\/(reel|p)\/([^\/?#]+)\/?(?:\?.*)?$/i);
