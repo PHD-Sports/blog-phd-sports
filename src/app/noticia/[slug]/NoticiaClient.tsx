@@ -33,7 +33,7 @@ interface Props {
 
 type ContentBlock =
   | { type: 'text'; value: string }
-  | { type: 'gallery'; images: string[] };
+  | { type: 'gallery'; images: string[]; title?: string };
 
 function isImageUrl(text: string): boolean {
   return /^https?:\/\/[^\s]+\.(?:png|jpe?g|webp|gif)(?:\?.*)?$/i.test(text.trim());
@@ -42,9 +42,16 @@ function isImageUrl(text: string): boolean {
 function buildContentBlocks(content: string): ContentBlock[] {
   const paragraphs = content.split('\n\n');
   const blocks: ContentBlock[] = [];
+  let currentSectionTitle = '';
 
   for (let i = 0; i < paragraphs.length; i++) {
     const current = paragraphs[i].trim();
+
+    if (current.startsWith('## ')) {
+      currentSectionTitle = current.replace('## ', '').trim();
+      blocks.push({ type: 'text', value: paragraphs[i] });
+      continue;
+    }
 
     if (isImageUrl(current)) {
       const images = [current];
@@ -52,7 +59,7 @@ function buildContentBlocks(content: string): ContentBlock[] {
         images.push(paragraphs[i + 1].trim());
         i++;
       }
-      blocks.push({ type: 'gallery', images });
+      blocks.push({ type: 'gallery', images, title: currentSectionTitle || 'Cobertura visual do evento' });
       continue;
     }
 
@@ -202,8 +209,8 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                   <section key={idx} className="not-prose my-10 rounded-3xl bg-[#131d2f] p-4 md:p-6 shadow-xl">
                     <div className="mb-4 flex items-center justify-between gap-3">
                       <div>
-                        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#ffdc61]">Galeria</p>
-                        <h3 className="text-lg font-bold text-white md:text-xl">Cobertura visual do evento</h3>
+                        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#ffdc61]">Cobertura especial</p>
+                        <h3 className="text-lg font-bold text-white md:text-xl">{block.title || 'Cobertura visual do evento'}</h3>
                       </div>
                       <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white">
                         {block.images.length} {block.images.length === 1 ? 'foto' : 'fotos'}
@@ -223,14 +230,21 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                             loading="lazy"
                           />
                           <figcaption className="flex items-center justify-between px-4 py-3 text-sm text-gray-600">
-                            <span>Ph.D Sports em destaque</span>
+                            <span>{block.title || 'Ph.D Sports em destaque'}</span>
                             <span className="font-semibold text-[#131d2f]">{imageIndex + 1}/{block.images.length}</span>
                           </figcaption>
                         </figure>
                       ))}
                     </div>
 
-                    <p className="mt-3 text-sm text-white/70">Arraste para o lado para ver a sequência.</p>
+                    <div className="mt-3 flex items-center justify-between gap-3">
+                      <p className="text-sm text-white/70">Arraste para o lado para ver a sequência.</p>
+                      <div className="flex gap-2">
+                        {block.images.map((_, dotIndex) => (
+                          <span key={dotIndex} className={`h-2 rounded-full ${dotIndex === 0 ? 'w-6 bg-[#ffdc61]' : 'w-2 bg-white/30'}`} />
+                        ))}
+                      </div>
+                    </div>
                   </section>
                 );
               }
