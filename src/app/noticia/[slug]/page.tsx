@@ -3,8 +3,9 @@ import { getNoticiaBySlug, getNoticias, getAllSlugs, getTagsFromNoticia } from '
 import NoticiaClient from './NoticiaClient';
 import Link from 'next/link';
 
-// Revalidar a cada 60 segundos (ISR)
-export const revalidate = 60;
+// Renderizar notícias dinamicamente para evitar cache de 404 em conteúdos recém-publicados
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
