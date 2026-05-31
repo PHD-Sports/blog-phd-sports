@@ -1,0 +1,64 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Pessoa sedentária deitada no sofá</title>
+  <desc id="desc">Ilustração editorial de uma pessoa deitada no sofá com celular, representando o desafio de trocar o sedentarismo pelo exercício físico.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#131D2F"/>
+      <stop offset="0.58" stop-color="#172942"/>
+      <stop offset="1" stop-color="#FFDC61"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(945 125) rotate(126) scale(420 320)">
+      <stop stop-color="#FFDC61" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#FFDC61" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#06101E" flood-opacity="0.42"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <g opacity="0.14" stroke="#FFFFFF" stroke-width="2">
+    <path d="M70 92H275M80 132H220M920 470H1130M980 510H1100" stroke-linecap="round"/>
+    <circle cx="1016" cy="150" r="82"/>
+    <path d="M1016 85V215M951 150H1081" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <path d="M210 334c0-45 36-82 82-82h445c62 0 112 50 112 112v92H210V334z" fill="#F6F0E4"/>
+    <path d="M188 405c0-36 29-65 65-65h653c42 0 76 34 76 76v41H188v-52z" fill="#FFDC61"/>
+    <path d="M236 452h705v55c0 22-18 40-40 40H276c-22 0-40-18-40-40v-55z" fill="#D9A936"/>
+    <path d="M210 454h796c16 0 29 13 29 29s-13 29-29 29H210c-16 0-29-13-29-29s13-29 29-29z" fill="#F5C94D"/>
+    <path d="M287 547h62l-17 45h-62l17-45zM838 547h62l17 45h-62l-17-45z" fill="#0B1424" opacity="0.62"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <path d="M383 342c-10-42 13-84 54-97l90-28c40-12 82 10 95 50l1 4c12 40-10 82-50 95l-91 28c-41 13-88-10-99-52z" fill="#FFFFFF"/>
+    <path d="M583 286c31 22 77 63 137 106 17 12 21 36 9 53-12 18-36 22-54 10l-143-98 51-71z" fill="#263850"/>
+    <path d="M389 341c33 13 73 11 119-8l88-37 34 69-91 42c-67 31-123 31-168 7l18-73z" fill="#E9EDF3"/>
+    <path d="M705 389l69 49c14 10 17 30 7 44-10 14-30 18-44 8l-75-53 43-48z" fill="#FFB996"/>
+    <path d="M742 469c17 4 35 2 50-7 8-5 18-2 23 5l5 8c5 8 3 18-5 23-30 20-70 22-103 5l30-34z" fill="#111827"/>
+    <path d="M513 219c0-31 25-57 57-57s57 26 57 57-25 57-57 57-57-25-57-57z" fill="#FFB996"/>
+    <path d="M512 214c-1-39 29-74 69-73 33 1 61 25 67 58-33-1-58-11-76-31-12 26-33 42-60 46z" fill="#1F2937"/>
+    <path d="M553 239c14 10 33 10 47 0" stroke="#8A4C3A" stroke-width="5" stroke-linecap="round"/>
+    <rect x="421" y="276" width="97" height="145" rx="26" transform="rotate(76 421 276)" fill="#18243A"/>
+    <circle cx="387" cy="335" r="8" fill="#FFDC61"/>
+  </g>
+
+  <g>
+    <rect x="776" y="108" width="265" height="120" rx="28" fill="#FFFFFF" fill-opacity="0.94"/>
+    <path d="M820 172h130M820 202h82" stroke="#131D2F" stroke-width="14" stroke-linecap="round"/>
+    <path d="M981 142l24 24 39-48" stroke="#FFDC61" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g>
+    <rect x="72" y="68" width="496" height="132" rx="30" fill="#0B1424" fill-opacity="0.72"/>
+    <text x="104" y="122" fill="#FFDC61" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800">NOSSO PRINCIPAL</text>
+    <text x="104" y="170" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="900">CONCORRENTE</text>
+  </g>
+
+  <text x="74" y="580" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700" opacity="0.94">Por que é tão difícil trocar o sofá pelo exercício regular?</text>
+  <rect x="1016" y="530" width="106" height="42" rx="21" fill="#131D2F" fill-opacity="0.9"/>
+  <text x="1042" y="559" fill="#FFDC61" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800">Ph.D</text>
+</svg>
