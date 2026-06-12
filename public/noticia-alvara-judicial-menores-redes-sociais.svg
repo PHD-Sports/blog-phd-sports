@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Aviso importante sobre alvará judicial para conteúdo com menores</title>
+  <desc id="desc">Banner institucional Ph.D Sports sobre nova orientação para publicações com menores nas redes sociais.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1A2B5E"/>
+      <stop offset="1" stop-color="#0F1B3D"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F2B705"/>
+      <stop offset="1" stop-color="#FFD45A"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity=".25"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1030" cy="90" r="190" fill="#ffffff" opacity=".06"/>
+  <circle cx="150" cy="560" r="230" fill="#ffffff" opacity=".05"/>
+  <rect x="74" y="72" width="1052" height="486" rx="34" fill="#fff" opacity=".08" filter="url(#shadow)"/>
+  <rect x="74" y="72" width="1052" height="8" fill="url(#gold)"/>
+  <g transform="translate(116 118)">
+    <text x="0" y="0" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" letter-spacing="1">Ph.<tspan fill="#F2B705">D</tspan> Sports</text>
+    <rect x="0" y="44" width="292" height="42" rx="21" fill="#F2B705"/>
+    <text x="22" y="72" fill="#0F1B3D" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800" letter-spacing="1.4">AVISO IMPORTANTE</text>
+    <text x="0" y="150" fill="#FFD45A" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" letter-spacing="2">COMUNICAÇÃO AOS FRANQUEADOS</text>
+    <text x="0" y="218" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900">Alvará judicial para</text>
+    <text x="0" y="286" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900">conteúdo com menores</text>
+    <text x="0" y="354" fill="#D6DCEC" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="500">Orientação para publicações de marca</text>
+    <text x="0" y="394" fill="#D6DCEC" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="500">nas redes sociais da rede</text>
+  </g>
+  <g transform="translate(870 190)">
+    <rect x="0" y="0" width="198" height="238" rx="24" fill="#F2B705" opacity=".98"/>
+    <rect x="48" y="62" width="102" height="82" rx="16" fill="#0F1B3D" opacity=".95"/>
+    <path d="M69 62v-22c0-28 21-49 50-49s50 21 50 49v22h-26v-21c0-14-10-25-24-25s-24 11-24 25v21z" transform="translate(-20 23)" fill="#0F1B3D" opacity=".95"/>
+    <circle cx="99" cy="103" r="13" fill="#F2B705"/>
+    <rect x="94" y="114" width="10" height="31" rx="5" fill="#F2B705"/>
+    <text x="99" y="198" text-anchor="middle" fill="#0F1B3D" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="900">18-</text>
+  </g>
+</svg>
