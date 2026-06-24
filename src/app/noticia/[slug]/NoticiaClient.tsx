@@ -39,6 +39,28 @@ function isImageUrl(text: string): boolean {
   return /^https?:\/\/[^\s]+\.(?:png|jpe?g|webp|gif)(?:\?.*)?$/i.test(text.trim());
 }
 
+function getYouTubeEmbedUrl(url: string): string | null {
+  try {
+    const parsed = new URL(url.trim());
+    const host = parsed.hostname.replace(/^www\./, '');
+
+    if (host === 'youtu.be') {
+      const videoId = parsed.pathname.split('/').filter(Boolean)[0];
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+    }
+
+    if (host === 'youtube.com' || host === 'm.youtube.com') {
+      if (parsed.pathname.startsWith('/embed/')) return url.trim();
+      const videoId = parsed.searchParams.get('v');
+      return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 function buildContentBlocks(content: string): ContentBlock[] {
   const paragraphs = content.split('\n\n');
   const blocks: ContentBlock[] = [];
@@ -283,6 +305,25 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                         loading="lazy"
                         title="Instagram Reel"
+                      />
+                    </div>
+                  </div>
+                );
+              }
+
+              // YouTube embed (when paragraph is a single YouTube URL)
+              const youtubeEmbedUrl = getYouTubeEmbedUrl(paragraph);
+              if (youtubeEmbedUrl) {
+                return (
+                  <div key={idx} className="not-prose my-8 overflow-hidden rounded-2xl border border-gray-200 bg-black shadow-lg">
+                    <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                      <iframe
+                        src={youtubeEmbedUrl}
+                        className="absolute inset-0 h-full w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        loading="lazy"
+                        title="Vídeo incorporado da notícia"
                       />
                     </div>
                   </div>
