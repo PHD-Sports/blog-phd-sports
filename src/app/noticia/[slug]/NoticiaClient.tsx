@@ -256,6 +256,14 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                 );
               }
 
+              if (paragraph.startsWith('### ')) {
+                return (
+                  <h3 key={idx} className="text-xl font-bold text-[#131d2f] mt-6 mb-3">
+                    {paragraph.replace('### ', '')}
+                  </h3>
+                );
+              }
+
               // List blocks (lines starting with - )
               const lines = paragraph.split('\n');
               const isListBlock = lines.every(l => l.trim().startsWith('- ') || l.trim() === '');

@@ -1,0 +1,16 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#131d2f"/>
+  <circle cx="1040" cy="90" r="190" fill="#ffdc61" fill-opacity="0.16"/>
+  <circle cx="120" cy="570" r="240" fill="#ffdc61" fill-opacity="0.10"/>
+  <rect x="70" y="70" width="1060" height="490" rx="40" fill="white" fill-opacity="0.06" stroke="#ffdc61" stroke-opacity="0.55" stroke-width="2"/>
+  <text x="100" y="145" fill="#ffdc61" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">EXPANSÃO • SUL DO BRASIL</text>
+  <text x="100" y="240" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="900">Moinhos Fitness</text>
+  <text x="100" y="325" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="900">+ Ph.D Sports</text>
+  <text x="100" y="395" fill="#ffdc61" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800">novo ecossistema fitness no Sul</text>
+  <text x="100" y="475" fill="#ffffff" fill-opacity="0.88" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="600">Grupo passa a somar aproximadamente 250 unidades</text>
+  <text x="100" y="520" fill="#ffffff" fill-opacity="0.78" font-family="Arial, Helvetica, sans-serif" font-size="26">RS • SC • tecnologia • governança • expansão</text>
+  <g transform="translate(870 405)">
+    <rect width="190" height="70" rx="35" fill="#ffdc61"/>
+    <text x="95" y="46" fill="#131d2f" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="900" text-anchor="middle">Ph.D Sports</text>
+  </g>
+</svg>

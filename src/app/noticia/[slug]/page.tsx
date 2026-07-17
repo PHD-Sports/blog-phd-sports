@@ -3,6 +3,48 @@ import { getNoticiaBySlug, getNoticias, getAllSlugs, getTagsFromNoticia } from '
 import NoticiaClient from './NoticiaClient';
 import Link from 'next/link';
 
+function extractFaqFromMarkdown(content: string): { question: string; answer: string }[] {
+  const lines = content.split('\n');
+  const faqs: { question: string; answer: string }[] = [];
+  let inFaqSection = false;
+  let currentQuestion = '';
+  let currentAnswer: string[] = [];
+
+  const flush = () => {
+    if (!currentQuestion || currentAnswer.length === 0) return;
+    faqs.push({
+      question: currentQuestion.replace(/^#+\s*/, '').trim(),
+      answer: currentAnswer.join(' ').replace(/\*\*/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').trim(),
+    });
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+
+    if (line.startsWith('## ')) {
+      if (inFaqSection) flush();
+      inFaqSection = /perguntas frequentes|faq/i.test(line);
+      currentQuestion = '';
+      currentAnswer = [];
+      continue;
+    }
+
+    if (!inFaqSection || !line) continue;
+
+    if (line.startsWith('### ')) {
+      flush();
+      currentQuestion = line.replace(/^###\s*/, '').trim();
+      currentAnswer = [];
+      continue;
+    }
+
+    if (currentQuestion) currentAnswer.push(line.replace(/^[-*]\s*/, ''));
+  }
+
+  if (inFaqSection) flush();
+  return faqs.slice(0, 8);
+}
+
 // Renderizar notícias dinamicamente para evitar cache de 404 em conteúdos recém-publicados
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -127,6 +169,7 @@ export default async function NoticiaPage({ params }: Props) {
   const todasNoticias = await getNoticias();
   const outrasNoticias = todasNoticias.filter(n => n.id !== noticia.id).slice(0, 3);
   const tags = getTagsFromNoticia(noticia);
+  const faqs = extractFaqFromMarkdown(noticia.conteudo);
 
   // Tempo de leitura estimado (200 palavras por minuto)
   const wordCount = noticia.conteudo.split(/\s+/).length;
@@ -218,6 +261,19 @@ export default async function NoticiaPage({ params }: Props) {
     ],
   };
 
+  const faqJsonLd = faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  } : null;
+
   return (
     <>
       <script
@@ -232,6 +288,12 @@ export default async function NoticiaPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <NoticiaClient noticia={noticia} outrasNoticias={outrasNoticias} tags={tags} tempoLeitura={tempoLeitura} />
     </>
   );
