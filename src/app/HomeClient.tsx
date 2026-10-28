@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { getNoticiasPaginadas } from '@/lib/supabase';
+import { isOutubroRosaCover } from '@/lib/image-framing';
 
 interface Categoria {
   id: number;
@@ -337,11 +338,11 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
                     transition={{ delay: index * 0.2 }}
                     className="card-hover group relative overflow-hidden rounded-3xl shadow-2xl bg-white cursor-pointer"
                   >
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-64 overflow-hidden bg-[#131d2f]">
                       <img 
                         src={noticia.imagem} 
                         alt={noticia.titulo}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        className={`w-full h-full ${isOutubroRosaCover(noticia.slug) ? 'object-contain' : 'object-cover group-hover:scale-110'} transition-transform duration-700`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#131d2f] via-transparent to-transparent" />
                       <span className="absolute top-4 left-4 bg-[#ffdc61] text-[#131d2f] px-4 py-1 rounded-full text-sm font-semibold">
@@ -468,11 +469,11 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
                   >
                     <Link href={`/noticia/${noticia.slug}`}>
                       <article className="card-hover group bg-white rounded-2xl overflow-hidden shadow-xl cursor-pointer h-full flex flex-col">
-                        <div className="relative h-48 overflow-hidden">
+                        <div className="relative h-48 overflow-hidden bg-[#131d2f]">
                           <img 
                             src={noticia.imagem} 
                             alt={noticia.titulo}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            className={`w-full h-full ${isOutubroRosaCover(noticia.slug) ? 'object-contain' : 'object-cover group-hover:scale-110'} transition-transform duration-500`}
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#131d2f]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
