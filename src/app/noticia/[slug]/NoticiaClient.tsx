@@ -156,7 +156,7 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
           transition={{ duration: 1.5 }}
           src={noticia.imagem} 
           alt={noticia.titulo}
-          className={capaVertical ? 'w-full h-[50vh] md:h-[60vh] object-contain' : 'w-full h-full object-cover'}
+          className={capaVertical ? 'w-full aspect-[2/1] object-cover object-top' : 'w-full h-full object-cover'}
         />
         {!capaVertical && <div className="absolute inset-0 bg-gradient-to-t from-[#131d2f] via-[#131d2f]/50 to-transparent" />}
         
@@ -491,11 +491,11 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                 className="card-hover group bg-gray-50 rounded-2xl overflow-hidden shadow-lg"
               >
                 <Link href={`/noticia/${item.slug}`}>
-                  <div className="relative h-48 overflow-hidden bg-[#131d2f]">
+                  <div className={`relative overflow-hidden bg-[#131d2f] ${isOutubroRosaCover(item.slug) ? "aspect-[2/1]" : "h-48"}`}>
                     <img 
                       src={item.imagem} 
                       alt={item.titulo}
-                      className={`w-full h-full ${isOutubroRosaCover(item.slug) ? 'object-contain' : 'object-cover group-hover:scale-110'} transition-transform duration-500`}
+                      className={`w-full h-full ${isOutubroRosaCover(item.slug) ? 'object-cover object-top' : 'object-cover group-hover:scale-110'} transition-transform duration-500`}
                     />
                   </div>
                   <div className="p-6">
