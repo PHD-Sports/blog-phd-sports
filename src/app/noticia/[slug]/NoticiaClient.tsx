@@ -371,6 +371,16 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
               );
             })}
 
+            {noticia.slug === 'phd-sports-caminhada-outubro-rosa-ponta-grossa-2026' && (
+              <figure className="my-8">
+                <video controls playsInline preload="metadata" className="w-full rounded-xl border border-gray-200" aria-label="Vídeo da caminhada Outubro Rosa em Ponta Grossa">
+                  <source src="/caminhada-outubro-rosa-ponta-grossa-2026.mp4" type="video/mp4" />
+                  Seu navegador não suporta vídeo.
+                </video>
+                <figcaption className="mt-2 text-sm text-gray-500">Caminhada Outubro Rosa em Ponta Grossa</figcaption>
+              </figure>
+            )}
+
             {noticia.citacao_ceo !== false && (
               <blockquote className="bg-[#131d2f] text-white p-8 rounded-2xl my-8 border-l-4 border-[#ffdc61]">
                 <p className="text-xl italic mb-4">
