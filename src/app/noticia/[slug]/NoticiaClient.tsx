@@ -152,7 +152,7 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
-          src={noticia.imagem} 
+          src={noticia.slug === 'phd-sports-caminhada-outubro-rosa-ponta-grossa-2026' ? '/caminhada-outubro-rosa-capa-2026.jpg' : noticia.imagem}
           alt={noticia.titulo}
           className="w-full h-full object-cover"
         />
