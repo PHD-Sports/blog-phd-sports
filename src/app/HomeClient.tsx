@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { getNoticiasPaginadas } from '@/lib/supabase';
-import { isOutubroRosaCover } from '@/lib/image-framing';
 
 interface Categoria {
   id: number;
@@ -338,25 +337,18 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
                     transition={{ delay: index * 0.2 }}
                     className="card-hover group relative overflow-hidden rounded-3xl shadow-2xl bg-white cursor-pointer"
                   >
-                    <div className={`relative overflow-hidden bg-[#131d2f] ${isOutubroRosaCover(noticia.slug) ? "aspect-[2/1]" : "h-64"}`}>
+                    <div className="relative h-64 overflow-hidden">
                       <img 
                         src={noticia.imagem} 
                         alt={noticia.titulo}
-                        className={`w-full h-full ${isOutubroRosaCover(noticia.slug) ? 'object-cover object-top' : 'object-cover group-hover:scale-110'} transition-transform duration-700`}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
-                      {!isOutubroRosaCover(noticia.slug) && <div className="absolute inset-0 bg-gradient-to-t from-[#131d2f] via-transparent to-transparent" />}
-                      {!isOutubroRosaCover(noticia.slug) && (
-                        <span className="absolute top-4 left-4 bg-[#ffdc61] text-[#131d2f] px-4 py-1 rounded-full text-sm font-semibold">
-                          {noticia.categoria}
-                        </span>
-                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#131d2f] via-transparent to-transparent" />
+                      <span className="absolute top-4 left-4 bg-[#ffdc61] text-[#131d2f] px-4 py-1 rounded-full text-sm font-semibold">
+                        {noticia.categoria}
+                      </span>
                     </div>
                     <div className="p-6 bg-[#131d2f]">
-                      {isOutubroRosaCover(noticia.slug) && (
-                        <span className="inline-block bg-[#ffdc61] text-[#131d2f] px-4 py-1 rounded-full text-sm font-semibold mb-3">
-                          {noticia.categoria}
-                        </span>
-                      )}
                       <h4 className="text-xl font-bold text-white mb-3 group-hover:text-[#ffdc61] transition-colors">
                         {noticia.titulo}
                       </h4>
@@ -476,11 +468,11 @@ export default function HomeClient({ noticias: noticiasIniciais, categorias }: P
                   >
                     <Link href={`/noticia/${noticia.slug}`}>
                       <article className="card-hover group bg-white rounded-2xl overflow-hidden shadow-xl cursor-pointer h-full flex flex-col">
-                        <div className={`relative overflow-hidden bg-[#131d2f] ${isOutubroRosaCover(noticia.slug) ? "aspect-[2/1]" : "h-48"}`}>
+                        <div className="relative h-48 overflow-hidden">
                           <img 
                             src={noticia.imagem} 
                             alt={noticia.titulo}
-                            className={`w-full h-full ${isOutubroRosaCover(noticia.slug) ? 'object-cover object-top' : 'object-cover group-hover:scale-110'} transition-transform duration-500`}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             loading="lazy"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#131d2f]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />

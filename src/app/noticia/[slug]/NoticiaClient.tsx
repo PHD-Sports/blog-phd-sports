@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { isOutubroRosaCover } from '@/lib/image-framing';
 
 interface Tag {
   id: number;
@@ -113,7 +112,6 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
   const shareText = encodeURIComponent(noticia.titulo);
   const shareUrlEncoded = encodeURIComponent(shareUrl);
   const contentBlocks = buildContentBlocks(noticia.conteudo);
-  const capaVertical = isOutubroRosaCover(noticia.slug);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -149,18 +147,18 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
       </motion.header>
 
       {/* Hero da Notícia */}
-      <div className={capaVertical ? 'relative bg-[#131d2f]' : 'relative h-[50vh] md:h-[60vh] overflow-hidden'}>
+      <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <motion.img 
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
           src={noticia.imagem} 
           alt={noticia.titulo}
-          className={capaVertical ? 'w-full aspect-[2/1] object-cover object-top' : 'w-full h-full object-cover'}
+          className="w-full h-full object-cover"
         />
-        {!capaVertical && <div className="absolute inset-0 bg-gradient-to-t from-[#131d2f] via-[#131d2f]/50 to-transparent" />}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#131d2f] via-[#131d2f]/50 to-transparent" />
         
-        <div className={capaVertical ? 'p-8 md:p-16' : 'absolute bottom-0 left-0 right-0 p-8 md:p-16'}>
+        <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
           <div className="max-w-4xl mx-auto">
             <motion.span 
               initial={{ opacity: 0, y: 20 }}
@@ -501,11 +499,11 @@ export default function NoticiaClient({ noticia, outrasNoticias, tags, tempoLeit
                 className="card-hover group bg-gray-50 rounded-2xl overflow-hidden shadow-lg"
               >
                 <Link href={`/noticia/${item.slug}`}>
-                  <div className={`relative overflow-hidden bg-[#131d2f] ${isOutubroRosaCover(item.slug) ? "aspect-[2/1]" : "h-48"}`}>
+                  <div className="relative h-48 overflow-hidden">
                     <img 
                       src={item.imagem} 
                       alt={item.titulo}
-                      className={`w-full h-full ${isOutubroRosaCover(item.slug) ? 'object-cover object-top' : 'object-cover group-hover:scale-110'} transition-transform duration-500`}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
                   <div className="p-6">
